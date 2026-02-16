@@ -52,3 +52,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/Adventuregame/.vs/Adventuregame
+/.vs
+/Adventuregame/.vs/ProjectEvaluation
