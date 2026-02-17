@@ -8,6 +8,11 @@ namespace Adventuregame.core
 {
     public class Maze
     {
+        /// <summary>
+        /// Here is the maze itself
+        /// It will have the width & height of what the maze will look like
+        /// it will also show what will show up in the maze such as items, monsters, and of course the player.
+        /// </summary>
         public int Width { get; set; }
         public int Height { get; set; }
 
@@ -15,11 +20,15 @@ namespace Adventuregame.core
         
         public List<Monster> Monsters { get; set; }
 
-        public Weapon Weapon {  get; set; }
-        public Potion Potion { get; set; }
-
+        
+        /// <summary>
+        /// This will show all of the things that will show in the maze.
+        /// </summary>
         public (int x, int y) Exit;
         public (int x, int y) Player;
+        public (int x, int y) Weapon;
+        public (int x, int y) Potion;
+        public (int x, int y) Monster;
         public Maze(int width, int height)
         {
             Width = width;
@@ -30,6 +39,7 @@ namespace Adventuregame.core
 
         private void GenerateMaze()
         {
+            ///This will generate a random maze everytime you start up a new game.
             Random random = new Random();
             for (int y = 0; y < Height; y++)
             {
@@ -46,12 +56,21 @@ namespace Adventuregame.core
                 Grid[i, Height - 1] = '#';
             }
             Exit = (Width - 2, Height - 2);
+            /// This will show where each thing will spawn on the map and the @ symbol is the player.
             Grid[Exit.y, Exit.x] = 'E';
-
             Grid[Player.y, Player.x] = '@';
+            Grid[Weapon.y, Weapon.x] = 'W';
+            Grid[Potion.y, Potion.x] = 'P';
+            Grid[Monster.y, Monster.x] = 'M';
 
         }
 
+        /// <summary>
+        /// This should keep the player from going out of bounds in they are near the wall.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool IsWalkable(int x, int y) 
         { 
             return Grid [x, y] != '#';
