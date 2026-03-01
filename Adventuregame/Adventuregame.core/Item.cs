@@ -5,14 +5,13 @@
     /// </summary>
     public abstract class Items
     {
-       public string Name { get; set; }
-        public string Description { get; set; }
 
-        public Items(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public abstract void ApplyEffect(Player player);
+
+        
     }
 
 }

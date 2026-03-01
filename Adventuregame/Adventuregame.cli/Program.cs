@@ -1,109 +1,107 @@
 ﻿using Adventuregame.core;
+using System;
+using System.Numerics;
+using System.Threading;
 
-static void Main(string[] args)
+
+class Program 
 {
-    ///This will help generate the maze
-    Maze maze = new Maze(20, 10);
-    /// Here we have the player that can be controlled by WASD
-    Player player = new Player(1, 1);
-    /// This will show the monsters that will be on the maze
-    List<Monster> monsters = new List<Monster>();
+    /// <summary>
+    /// This should show the Maze, the player, and the monster to show up
+    /// </summary>
+    static Maze maze;
+    static Player player = new Player();
+    static Monster monster = new Monster();
+    static void Main(string[] args)
     {
-        new Monster(5, 5);
-        new Monster(10, 3);
+        //This allows you to change the look of the maze
+        maze = new Maze(20, 10);
+        // Here are the symbols of what will be on the maze so the player will know which one they are approaching
+        maze.PlaceCharacter(player, '@');
+        maze.PlaceCharacter(monster, 'M');
+        ///This shows how much damage and hp the player will get it is picked up.
+        maze.PlaceItem(new Weapon(5), 'W');
+        maze.PlaceItem(new Potion(20), 'P');
+        maze.PlaceExit();
+        GameLoop();
     }
-    ///<summery>
-    /// This will show the items that will spawn on the maze
-    /// </summery>
-    List<Items> items = new List<Items>()
+
+    static void GameLoop()
     {
-        new Weapon { Name = "Sword", Damage = 15 },
-        new Potion { Name = "Health Potion", PotionEffects = 25 }
-    };
-    /// This will put the items in a spot on the maze that the player can grab
-    maze.Grid[2, 2] = 'I';
-    maze.Grid[3, 4] = 'I';
+        while(true)
+        {
+            Console.Clear();
+            maze.Draw();
 
-    while (true)
+            ///when the player has 0 hp the game will end.
+            Console.WriteLine($"Health: {player.Health} Damage: {player.AttackDamage}");
+            if (player.Health <= 0)
+            {
+                Console.WriteLine("Game Over!");
+                break;
+            }
+
+            var key = Console.ReadKey(true).Key;
+            int dx = 0, dy = 0;
+
+            ///This will allow the player to move using the WASD keys
+            switch (key)
+            {
+                case ConsoleKey.W: dy = -1; 
+                    break;
+                case ConsoleKey.S:
+                    dy = 1;
+                    break;
+                case ConsoleKey.A:
+                    dx = -1;
+                    break;
+                case ConsoleKey.D:
+                    dx = 1;
+                    break;
+            }
+            TryMove(dx, dy);
+        }
+    }
+
+    static void TryMove(int dx, int dy)
     {
-        ///<summery>
-        ///This will tell you whether the player has found the exit or died.
-        /// </summery>
-        (player, monsters);
-        if (player.Health <= 0)
+        int newX = player.X + dx;
+        int newY = player.Y + dy;
+
+        if (!maze.IsInside(newX, newY)) 
+            return;
+
+        char target = maze.GetTile(newX, newY);
+        ///this will make sure the player can not go out of the maze
+        if (target == '#')
+            return;
+        ///When the player runs into the M, this will kick of a fight.
+        ///once it hits 0 the monster will die 
+        if (target == 'M')
         {
-            Console.WriteLine("You are dead.");
-            break;
-        }
-        ///This will show up once the player has made it to the exit
-        if (player.x == maze.Exit.x && player.y == maze.Exit.y)
-        {
-            Console.WriteLine("You did it! You found the exit! Well done!");
-            break;
-        }
-        ///<summery>
-        /// This will allow you to either use the arrow keys or WASD
-        /// I used the switch command to help me put in the arrowkeys and WASD.
-        /// </summery>
-        ConsoleKeyInfo key = Console.ReadKey(true);
-        int dx = 0, dy = 0;
-
-        switch (key.Key)
-        {
-            case ConsoleKey.W:
-            case ConsoleKey.UpArrow:
-                dy = -1;
-                break;
-            case ConsoleKey.S:
-            case ConsoleKey.DownArrow:
-                dy = 1;
-                break;
-            case ConsoleKey.A:
-            case ConsoleKey.LeftArrow:
-                dx = -1;
-                break;
-            case ConsoleKey.D:
-            case ConsoleKey.RightArrow:
-                dx = 1;
-                break;
-            default: continue;
-
-        }
-
-        int newX = player.x + dx;
-        int newY = player.y + dy;
-
-        if (!maze.IsWalkable(newX, newY)) continue;
-
-        ///When a player fights a monster and attacks it, it will show what damage has been done to the monster
-        Monster monster = monsters.Find(Monster => Monster.x == newX && Monster.y == newY);
-        if (monster != null)
-        {
-            player.TakeDamage(monster.Damage);
-            monster.TakeDamage(20);
-            Console.WriteLine("You fought a monster! Took {monster.Damage} damage");
+            monster.TakeDamage(player.AttackDamage);
+            player.TakeDamage(monster.AttackDamage);
             if (monster.Health <= 0)
-            {
-                monsters.Remove(monster);
-                Console.ReadKey();
-                continue;
-            }
+                maze.SetTile(newX, newY, '.');
+            return;
         }
-        ///<summery>
-        ///This will show the item locations in the maze
-        /// </summery>
-        if (maze.Grid[newY, newX] == 'I')
+        ///This will allow the weapon and potion to give the effects to the player when picked up
+        if (target == 'W' || target == 'P')
         {
-            var keyItem = (newX, newY);
-            if (itemLocations.ContainsKey(keyItem))
-            {
-                var item = itemLocations[keyItem];
-                Console.WriteLine($"You picked up:{item.Name}");
-                itemLocations.Remove(keyItem);
-                maze.Grid[newY, newX] = '.';
-                Console.ReadKey();
-            }
+            var item = maze.Items.Find(i => i.X == newX && i.Y == newY);
+            item?.ApplyEffect(player);
+            maze.Items.Remove(item);
         }
+        ///This will show once the player has made it to the exit
+        if (target == 'E')
+        {
+            Console.WriteLine("YOU DID IT! YOU FOUND THE EXIT!!!");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+        maze.SetTile(player.X, player.Y, '.');
         player.Move(dx, dy);
+        maze.SetTile(player.X, player.Y, '@');
     }
 }
+

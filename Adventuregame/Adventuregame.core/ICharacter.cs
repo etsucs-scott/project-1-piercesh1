@@ -13,46 +13,38 @@ namespace Adventuregame.core
     /// </summary>
     public interface ICharacter
     {
-        void Attack(ICharacter target);
-        string Name { get; set; }
-        int Health {  get; set; }
-        int Damage { get; set; }
+       int Health { get; set; }
+        int AttackDamage { get; set; }
+
+        int X {  get; set; }
+        int Y { get; set; }
+
+        void Move(int dx, int dy);
+        void TakeDamage(int damage);
     }
     /// <summary>
-    /// The monster class will have its name, hp, and damage show up when interacted with
+    /// The monster class will have its hp and damage show up when interacted with
     /// It should also allow the monster to spawn in the maze anywhere and allow it to take damage.
     /// </summary>
     public class Monster : ICharacter
     {
-        private int v1;
-        private int v2;
-        public int x;
-        public int y;
+       
+     
+        public int Health { get; set; } = 50;
+        public int AttackDamage { get; set; } = 8;
 
-        public string Name { get; set; }
-        public int Health { get; set; }
-        public int Damage { get; set; }
-        public Monster(string name, int health, int damage)
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public void Move(int dx, int dy)
         {
-            Name = name;
-            Health = health;
-            Damage = damage;
+            X += dx;
+            Y += dy;
         }
 
-        public Monster(int v1, int v2)
+        public void TakeDamage(int damage)
         {
-            this.v1 = v1;
-            this.v2 = v2;
-        }
-
-        void ICharacter.Attack(ICharacter target)
-        {
-         
-        }
-
-        public void TakeDamage(int v)
-        {
-            throw new NotImplementedException();
+            Health -= damage;
         }
     }
     /// <summary>
@@ -61,42 +53,24 @@ namespace Adventuregame.core
     /// </summary>
     public class Player : ICharacter
     {
-        private int v1;
-        private int v2;
-        public int y;
-        public int x;
 
-        public string Name { get; set; }
-        public int Health { get; set; }
-        public int Damage { get; set; }
-        public object Inventory { get; set; }
 
-        public Player(string name, int health, int damage)
+
+        public int Health { get; set; } = 100;
+        public int AttackDamage { get; set; } = 10;
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public void Move(int dx, int dy)
         {
-            Name = name;
-            Health = health;
-            Damage = damage;
-        }
-
-        public Player(int v1, int v2)
-        {
-            this.v1 = v1;
-            this.v2 = v2;
-        }
-
-        void ICharacter.Attack(ICharacter target)
-        {
-
+            X += dx;
+            Y += dy;
         }
 
         public void TakeDamage(int damage)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Move(int dx, int dy)
-        {
-            throw new NotImplementedException();
+            Health -= damage;
+            Console.WriteLine("You have taken damage!");
         }
 
         

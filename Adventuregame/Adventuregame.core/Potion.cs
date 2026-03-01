@@ -16,9 +16,18 @@ namespace Adventuregame.core
         public PotionEffects Effect { get; set; }
         public int PotionEffects { get; set; }
 
-        public Potion(string name, string description, PotionEffects effect) : base(name, description) 
+        public Potion(int effect) 
         {
-            Effect = effect;
+            PotionEffects = effect;
+        }
+        /// <summary>
+        /// This should allow the player to get hp when picked up
+        /// </summary>
+        /// <param name="player"></param>
+        public override void ApplyEffect(Player player)
+        {
+              player.Health += PotionEffects;
+            Console.WriteLine("You found a potion. Your health has been restored");
         }
     }
 }
