@@ -18,8 +18,17 @@ If you run into an M you will fight the monster.
 If you run into a P you get a potion that should give you health
 If you run into a W you will get a weapon.
 If you run into a E you will escape and win the game
-To win the game you must make it to the exit
-If you lose all your health your game is over.
+
+Here is how you win the game
+You must find the E that will show up on the map, that will be your Exit.
+You need to avoid the monster that is in the maze.
+picking up health and weapons will help you on your way.
+once you get to the Exit you will escape and win the game
+
+the losing condition.
+the only way to lose the game is if you lose all your health in a battle
+once your health reaches 0, your game comes to an end.
+
 For the UML diagram I made sure to list off the important things such as the classes
 The ICharacter is the interface and that will be connected to most classes such as the player and the monster
 The player will be capable of moving, picking up items & fighting a monster when approaching one.
