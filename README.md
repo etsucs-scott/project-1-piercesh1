@@ -1,39 +1,42 @@
-So to make the game you must have your ICharacter interface and add in the player and monster class in to the code with the ICharacter
-The player and monster must be connected to the ICharacter and make sure that both monster and lose health and be defeated.
-The player itself will be capable of gaining hp, taking damage, attacking and will be capable of moving.
-you must add in an item abstract class that has weapons and potions connected to it.
-The weapon will be capable of giving the player extra damage when they are fighting a monster.
-The amount of damage I have put in that the player will get is 5
-The potion will allow the player to gain its health back or gain extra hp if they have not fought a monster yet.
-The amount of health that the player will get when they get the potion is 20
-you need to have the maze class to make the maze itself and it will show the player, the monster, and the items on the maze and you must find the exit.
-The maze class has a Width & Height to make what the size of the maze will be
-There is a PlaceCharacter that will be connected to the ICharacter to help spawn in the player and the monster
-There's a PlaceItem that will be connected to item and helps spawn in the weapon and potion for the player to pick up
-The PlaceExit is what will show the exit in the maze for the player to win the game.
-The height of the maze should be set to (20, 10). 10 for height 20 for width and can be changed when the numbers are changed.
-The GameLoop class will allow all of things in the maze to happen such as getting a game over and showing what will happen when you win.
-to move around the maze you must use the WASD keys.
-If you run into an M you will fight the monster.
-If you run into a P you get a potion that should give you health
-If you run into a W you will get a weapon.
-If you run into a E you will escape and win the game
+##Adventure Game
+This project is an adventure maze game that was made in C# 
+Here the player must make it to an exit, but must be careful as there are monsters in the maze.
 
-Here is how you win the game
-You must find the E that will show up on the map, that will be your Exit.
-You need to avoid the monster that is in the maze.
-picking up health and weapons will help you on your way.
-once you get to the Exit you will escape and win the game
+##Features
+There is a maze that will be randomly generated everytime a player starts a game
+The player can move to different tiles by using WASD.
+You have a weapon that will give you more damage and a potion that will give you health.
+Your health and damage will show
+There is a win lose condition
 
-the losing condition.
-the only way to lose the game is if you lose all your health in a battle
-once your health reaches 0, your game comes to an end.
+##Build Instructions
+requires NET.SDK
 
-For the UML diagram I made sure to list off the important things such as the classes
-The ICharacter is the interface and that will be connected to most classes such as the player and the monster
-The player will be capable of moving, picking up items & fighting a monster when approaching one.
-The monster can spawn in the maze and will have its name, hp & damage show up.
-The items class will have the names and description for the weapons and potions
-The weapon class is connected to the items class and has damage connected
-The potion class is connected to items and will have health connected to it
-The maze will be the thing that adds everything and connected to all the classes
+Build the project with:
+dotnet build
+
+##Run Instructions
+Run the game with:
+dotnet run
+
+##Runtime Instructions
+Use the WASD Keys to move the player which is the @ symbol.
+You can encounter a monster that has an M symbol
+the combat will begin when you approach a monster. The monster will despawn once it has 0 hp.
+
+##Win Condition
+The player must make it to the exit tile which is the E symbol, but they need to have hp if they want to make it.
+
+##Lose Condition
+The player must have 0 hp for them to lose the game
+
+##Project structure
+AdventureGame.Console - handles input/output
+AdventureGame.Core - Contains the Game Logic
+
+#UML Diagram
+The UML diagram should be set as UML Diagram AdventureGame.PNG
+
+#Author
+Sid Pierce
+CSCI 1260 - Object Oriented Programming
