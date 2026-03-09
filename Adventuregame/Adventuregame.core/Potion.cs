@@ -28,6 +28,7 @@ namespace Adventuregame.core
         {
               player.Health += PotionEffects;
             Console.WriteLine("You found a potion. Your health has been restored");
+            Console.ReadKey();
         }
     }
 }

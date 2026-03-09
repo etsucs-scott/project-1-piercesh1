@@ -45,6 +45,8 @@ namespace Adventuregame.core
         public void TakeDamage(int damage)
         {
             Health -= damage;
+            Console.WriteLine($"You fought the monster! The monster took {damage} damage.");
+            Console.ReadKey();
         }
     }
     /// <summary>
@@ -71,6 +73,7 @@ namespace Adventuregame.core
         {
             Health -= damage;
             Console.WriteLine("You have taken damage!");
+            Console.ReadKey();
         }
 
         

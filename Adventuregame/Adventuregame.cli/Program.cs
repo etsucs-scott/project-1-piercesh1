@@ -82,6 +82,10 @@ class Program
             monster.TakeDamage(player.AttackDamage);
             player.TakeDamage(monster.AttackDamage);
             if (monster.Health <= 0)
+            
+            
+
+
                 maze.SetTile(newX, newY, '.');
             return;
         }

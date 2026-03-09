@@ -40,7 +40,7 @@ namespace Adventuregame.core
         {
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    grid[y, x] = random.Next(100) < 25 ? '#' : '.';
+                    grid[y, x] = random.Next(100) < 20 ? '#' : '.';
         }
         /// <summary>
         /// This will help spawn the player and the monster in the maze 

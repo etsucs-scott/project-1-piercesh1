@@ -26,6 +26,7 @@ namespace Adventuregame.core
         {
             player.AttackDamage += Damage;
             Console.WriteLine("You found a Weapon. Your damage has increased");
+            Console.ReadKey();
         }
     }
 }
